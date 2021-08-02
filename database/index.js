@@ -42,6 +42,13 @@ const publication = [{
     name: "Spectrum Of Thoughts",
     books: ["12234ONE"]
 },
+
+{
+    id: 2,
+    name: "Fanatixx",
+    books: [""]
+},
+
 ];
 
 //Export the data to NodeJS

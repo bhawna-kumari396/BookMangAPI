@@ -33,8 +33,8 @@
 
 
 //PUT
-//Update book details
-//Update/add new author
+//Update book details✅
+//Update/add new author✅
 
 
 //DELETE
@@ -55,7 +55,7 @@
 
 
 //POST
-//New Author
+//New Author✅
 
 //PUT
 //Author Details
@@ -78,13 +78,13 @@
 //to get a list of publications based on a book.🔥
 
 //POST
-//Add new publication
+//Add new publication🔥
 
 
 
 //PUT
-//Update publication details
-//Update/add new book to an publication
+//Update publication details🔥
+//Update/add new book to a publication
 
 
 //DELETE
@@ -93,3 +93,4 @@
 
 
 
+//How the server serves the request

@@ -201,9 +201,9 @@ inkingEmotions.put("/book/update/author/:isbn/:authorId", (req, res) => {
 
     //Update the author database
 
-    database.author.forEach((author) => {
+    database.authors.forEach((author) => {
 
-        if (author.id ===parseInt(req.body.newAuthor))
+        if (author.id === parseInt(req.body.newAuthor))
         return author.books.push(req.params.isbn);
 
     });
@@ -212,6 +212,45 @@ inkingEmotions.put("/book/update/author/:isbn/:authorId", (req, res) => {
         books: database.books, 
         authors: database.authors, 
         message: "New author was added 🚀"})
+});
+
+/*
+Route         /publication/update/book
+description   Update/add new book to a publication
+Access          PUBLIC
+Parameters     isbn
+Method         PUT
+ */
+
+
+inkingEmotions.put("/publication/update/book/:isbn", (req, res) => {
+
+    // update the publication database
+
+    database.publications.forEach((publication) => {
+
+        if (publication.id === req.body.pubId) {
+         return publication.books.push(req.params.isbn);
+        }
+        
+    });
+
+    //update the book database
+
+    database.books.forEach((book) => {
+        if (book.ISBN === req.params.isbn) {
+
+            book.publication = req.body.pubId;
+            return;
+
+        }   
+     });
+
+     return res.json({books: database.books, 
+        publications: database.publications, 
+        message: "Successfully updated publication",
+    });
+
 });
 
 
