@@ -38,8 +38,8 @@
 
 
 //DELETE
-//delete a book
-//delete a author from a book
+//delete a book✅
+//delete a author from a book✅
 
 //-----------------------------------------------------------------------------------------------------------
 
@@ -84,7 +84,7 @@
 
 //PUT
 //Update publication details🔥
-//Update/add new book to a publication
+//Update/add new book to a publication✅
 
 
 //DELETE
