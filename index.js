@@ -1,7 +1,15 @@
+require("dotenv").config();
+
+
+
 //Framework
 
-const { response } = require("express");
+//const { response } = require("express");
 const express = require("express");
+
+
+const mongoose = require("mongoose");
+
 
 
 //Database
@@ -15,6 +23,22 @@ const inkingEmotions = express();
 //configurations
 
 inkingEmotions.use(express.json());
+
+// Estb. database connection
+ 
+
+ mongoose.connect(process.env.MONGO_URL, {
+
+    useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
+
+ }).then(() => {
+
+    console.log('connection estblished!!!!');
+ }).catch((err) => console.log('Connection Failed'));
+ 
 
 /*
 Route         /
@@ -348,3 +372,21 @@ inkingEmotions.delete("/publication/delete/book/:isbn/:pubId", (req, res) => {
 });
 
 inkingEmotions.listen(3000, () => console.log("Server Running!!!"));
+
+
+//Talk to mongodb in which mongodb understands => *******
+//talk to us in the way we understand => JS
+
+// mongoose
+
+//why schema?
+
+//mongodb is schemaless
+
+//mongoose helps you with validation.
+
+//mongooes model
+
+//model -> document model of mongo DB
+
+//scheme -> Model ->

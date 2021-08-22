@@ -58,11 +58,11 @@
 //New Author✅
 
 //PUT
-//Author Details
+//Author Details🔥
 
 
 //DELETE
-//Delete an author
+//Delete an author🔥
 
 
 //-----------------------------------------------------------------------------------------------------------
@@ -88,9 +88,9 @@
 
 
 //DELETE
-//delete a book from publication
-//delete a publiction
+//delete a book from publication✅
+//delete a publiction🔥
 
 
 
-//How the server serves the request
+//How the server serves the request?
