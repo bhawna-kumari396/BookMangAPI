@@ -215,26 +215,26 @@ inkingEmotions.put("/book/update/:isbn", (req, res) => {
 });
 
 /*
-Route         /book/update/author
+Route         /book/author/update/:isbn
 description   Update/add new author
 Access          PUBLIC
 Parameters     isbn
 Method         PUT
  */
 
-inkingEmotions.put("/book/update/author/:isbn/:authorId", (req, res) => {
+inkingEmotions.put("/book/author/update/:isbn", (req, res) => {
   //Update the book database
 
   database.books.forEach((book) => {
-    if (book.ISBN === req.params.isbn) {
-      return book.authors.push(parseInt(req.body.newAuthor));
-    }
+    if (book.ISBN === req.params.isbn) 
+      return book.authors.push(req.body.newAuthor);
+    
   });
 
   //Update the author database
 
   database.authors.forEach((author) => {
-    if (author.id === parseInt(req.body.newAuthor))
+    if (author.id === req.body.newAuthor)
       return author.books.push(req.params.isbn);
   });
 
