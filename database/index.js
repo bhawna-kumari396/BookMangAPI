@@ -12,7 +12,7 @@ let books = [{
 {
     ISBN: "12234TWO",
     Title: "Only You",
-    Authors: [1, 2],
+    Authors: [2, 3],
     language: "en",
     pubDate: "2021-07-07",
     numOfPage: 225,
@@ -46,7 +46,7 @@ const publication = [{
 {
     id: 2,
     name: "Fanatixx",
-    books: [""]
+    books: ["NA"]
 },
 
 ];

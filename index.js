@@ -1,16 +1,9 @@
 require("dotenv").config();
 
-
-
 //Framework
-
-//const { response } = require("express");
 const express = require("express");
 
-
 const mongoose = require("mongoose");
-
-
 
 //Database
 
@@ -25,20 +18,18 @@ const inkingEmotions = express();
 inkingEmotions.use(express.json());
 
 // Estb. database connection
- 
 
- mongoose.connect(process.env.MONGO_URL, {
-
+mongoose
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true
-
- }).then(() => {
-
-    console.log('connection estblished!!!!');
- }).catch((err) => console.log('Connection Failed'));
- 
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+  })
+  .then(() => {
+    console.log("connection estblished!!!!");
+  })
+  .catch((err) => console.log("Connection Failed"));
 
 /*
 Route         /
@@ -49,11 +40,9 @@ Method         GET
  */
 
 inkingEmotions.get("/", (req, res) => {
+  // helloo change
 
-    // helloo change
-
-    return res.json({ books: database.books });
-
+  return res.json({ books: database.books });
 });
 
 /*
@@ -64,16 +53,19 @@ Parameters     isbn
 Method         GET
  */
 
-inkingEmotions.get("/is/:isbn", (req, res) => {
-    const getSpecificBook = database.books.filter((book) => book.ISBN === req.params.isbn);
+inkingEmotions.get("/:isbn", (req, res) => {
+  const getSpecificBook = database.books.filter(
+    (book) => book.ISBN === req.params.isbn
+  );
 
-    if (getSpecificBook.length === 0) {
-        return res.json({
-            error: `No book found for the ISBN of ${req.params.isbn}`,
-        });
-    }
+  if (getSpecificBook.length === 0) {
+    return res.json({
+      error: `No book found for the ISBN of ${req.params.isbn}`,
 
-    return res.json({ book: getSpecificBook });
+    });
+  }
+
+  return res.json({ book: getSpecificBook });
 });
 
 /*
@@ -85,18 +77,21 @@ Method         GET
  */
 
 inkingEmotions.get("/c/:category", (req, res) => {
-    const getSpecificBook = database.books.filter((book) => book.category.includes(req.params.category));
+  const getSpecificBooks = database.books.filter((book) =>
+    book.category.includes(req.params.category)
+  );
 
-    if (getSpecificBook.length === 0) {
-        return res.json({
-            error: `No book found for the category of ${req.params.category}`,
-        });
-    }
+  if (getSpecificBooks.length === 0) {
+    return res.json({
+      error: `No book found for the category of ${req.params.category}`,
+    });
+  }
 
-    return res.json({ book: getSpecificBook });
+  return res.json({ books: getSpecificBooks });
+});
 
-},
-);
+
+
 
 /*
 Route         /author
@@ -107,7 +102,7 @@ Method         GET
  */
 
 inkingEmotions.get("/author", (req, res) => {
-    return res.json({ authors: database.author });
+  return res.json({ authors: database.author });
 });
 
 /*
@@ -119,16 +114,17 @@ Method         GET
  */
 
 inkingEmotions.get("/author/book/:isbn", (req, res) => {
-    const getSpecificAuthor = database.author.filter((author) =>
-        author.books.includes(req.params.isbn));
+  const getSpecificAuthors = database.authors.filter((author) =>
+    author.books.includes(req.params.isbn)
+  );
 
-    if (getSpecificAuthor.length === 0) {
-        return res.json({ 
-            error: `No author found for the book ${req.params.isbn}`, 
-        });
-    }
+  if (getSpecificAuthors.length === 0) {
+    return res.json({
+      error: `No author found for the book ${req.params.isbn}`,
+    });
+  }
 
-    return res.json({ authors: getSpecificAuthor });
+  return res.json({ authors: getSpecificAuthors });
 });
 
 /*
@@ -140,26 +136,23 @@ Method         GET
  */
 
 inkingEmotions.get("/publications", (req, res) => {
-    return res.json({ publications: database.publication });
+  return res.json({ publications: database.publication });
 });
 
 /*
-Route         /book/add
+Route         /book/new
 description   add new books
 Access          PUBLIC
 Parameters     none
 Method         POST
  */
 
-inkingEmotions.post("/book/add", (req, res) => {
+inkingEmotions.post("/book/new", (req, res) => {
+  const { newBook } = req.body;
 
-    const { newBook } = req.body;
+  database.books.push(newBook);
 
-    database.books.push(newBook);
-
-    return res.json({ books: database.books,
-         message: "Book was added!!!" });
-
+  return res.json({ books: database.books, message: "Book was added!!!" });
 });
 
 /*
@@ -171,16 +164,15 @@ Method         POST
  */
 
 inkingEmotions.post("/author/new", (req, res) => {
+  const { newAuthor } = req.body;
 
-    const { newAuthor } = req.body;
+  database.author.push(newAuthor);
 
-    database.author.push(newAuthor);
-
-    return res.json({ authors: database.authors,
-         message: "Author was added!!!" });
-
-
-
+  return res.json({
+    authors: database.authors,
+    message: "Author was added!!!",
+    
+  });
 });
 
 /*
@@ -192,17 +184,14 @@ Method         PUT
  */
 
 inkingEmotions.put("/book/update/:isbn", (req, res) => {
+  database.books.forEach((book) => {
+    if (book.ISBN === req.params.isbn) {
+      book.Title = req.body.bookTitle;
+      return;
+    }
+  });
 
-    database.books.forEach((book) => {
-        if (book.ISBN === req.params.isbn) {
-            book.Title = req.body.bookTitle;
-            return;
-        }
-    });
-
-    return res.json({ books: database.books });
-
-
+  return res.json({ books: database.books });
 });
 
 /*
@@ -214,28 +203,26 @@ Method         PUT
  */
 
 inkingEmotions.put("/book/update/author/:isbn/:authorId", (req, res) => {
-    //Update the book database
+  //Update the book database
 
-    database.books.forEach((book) => {
-        if (book.ISBN === req.params.isbn) {
-            return book.authors.push(parseInt(req.body.newAuthor));
+  database.books.forEach((book) => {
+    if (book.ISBN === req.params.isbn) {
+      return book.authors.push(parseInt(req.body.newAuthor));
     }
-    });
+  });
 
+  //Update the author database
 
-    //Update the author database
+  database.authors.forEach((author) => {
+    if (author.id === parseInt(req.body.newAuthor))
+      return author.books.push(req.params.isbn);
+  });
 
-    database.authors.forEach((author) => {
-
-        if (author.id === parseInt(req.body.newAuthor))
-        return author.books.push(req.params.isbn);
-
-    });
-
-    return res.json({
-        books: database.books, 
-        authors: database.authors, 
-        message: "New author was added 🚀"})
+  return res.json({
+    books: database.books,
+    authors: database.authors,
+    message: "New author was added 🚀",
+  });
 });
 
 /*
@@ -246,35 +233,29 @@ Parameters     isbn
 Method         PUT
  */
 
-
 inkingEmotions.put("/publication/update/book/:isbn", (req, res) => {
+  // update the publication database
 
-    // update the publication database
+  database.publications.forEach((publication) => {
+    if (publication.id === req.body.pubId) {
+      return publication.books.push(req.params.isbn);
+    }
+  });
 
-    database.publications.forEach((publication) => {
+  //update the book database
 
-        if (publication.id === req.body.pubId) {
-         return publication.books.push(req.params.isbn);
-        }
-        
-    });
+  database.books.forEach((book) => {
+    if (book.ISBN === req.params.isbn) {
+      book.publication = req.body.pubId;
+      return;
+    }
+  });
 
-    //update the book database
-
-    database.books.forEach((book) => {
-        if (book.ISBN === req.params.isbn) {
-
-            book.publication = req.body.pubId;
-            return;
-
-        }   
-     });
-
-     return res.json({books: database.books, 
-        publications: database.publications, 
-        message: "Successfully updated publication",
-    });
-
+  return res.json({
+    books: database.books,
+    publications: database.publications,
+    message: "Successfully updated publication",
+  });
 });
 
 /*
@@ -286,13 +267,12 @@ Method         DELETE
  */
 
 inkingEmotions.delete("/book/delete/:isbn", (req, res) => {
-
-    const updatedBookDatabase = database.books.filter(
+  const updatedBookDatabase = database.books.filter(
     (book) => book.ISBN !== req.params.isbn
-    );
+  );
 
-    database.books = updatedBookDatabase;
-    return res.json({ books: database.books });
+  database.books = updatedBookDatabase;
+  return res.json({ books: database.books });
 });
 
 /*
@@ -304,35 +284,35 @@ Method         DELETE
  */
 
 inkingEmotions.delete("/book/delete/author/:isbn/:authorId", (req, res) => {
+  database.books.forEach((book) => {
+    if (book.ISBN === req.params.isbn) {
+      const newAuthorList = book.authors.filter(
+        (author) => author !== parseInt(req.params.authorId)
+      );
 
-       database.books.forEach((book) => {
-           if(book.ISBN === req.params.isbn){
+      book.authors = newAuthorList;
+      return;
+    }
+  });
 
-               const newAuthorList = book.authors.filter((author) => author !== parseInt(req.params.authorId)
-               );
+  //update the author database
+  database.authors.forEach((author) => {
+    if (author.id === parseInt(req.params.authorId)) {
+      const newBooksList = author.books.filter(
+        (book) => book.ISBN !== req.params.isbn
+      );
 
-               book.authors = newAuthorList;
-               return;
-           }
-       });
+      author.books = newBookList;
+      return;
+    }
+  });
 
-       //update the author database
-       database.authors.forEach((author) => {
-
-           if(author.id === parseInt(req.params.authorId)){
-
-               const newBooksList = author.books.filter((book) => book.ISBN !== req.params.isbn
-               );
-
-               author.books = newBookList;
-               return;
-           }
-       });
-
-       return res.json({book: database.books, author: database.authors, message: "author was deleted!!!!"})
-
+  return res.json({
+    book: database.books,
+    author: database.authors,
+    message: "author was deleted!!!!",
+  });
 });
-
 
 /*
 Route         /publication/delete/book
@@ -343,36 +323,33 @@ Method         DELETE
  */
 
 inkingEmotions.delete("/publication/delete/book/:isbn/:pubId", (req, res) => {
+  database.publications.forEach((publication) => {
+    if (publication.id === parseInt(req.params.pubId)) {
+      const newBooksList = publication.books.filter(
+        (book) => book !== req.params.isbn
+      );
 
-      database.publications.forEach((publication) => {
+      publication.books = newBooksList;
+      return;
+    }
+  });
 
-          if(publication.id === parseInt(req.params.pubId)){
-              const newBooksList = publication.books.filter(
-                  (book) => book !== req.params.isbn 
-                  
-              );
+  //update book database
 
-              publication.books = newBooksList;
-              return;
-          }
-      });
+  database.books.forEach((book) => {
+    if (book.ISBN === req.params.isbn) {
+      book.publication = 0; // no publication available
+      return;
+    }
 
-      //update book database
-
-      database.books.forEach((book) => {
-          if(book.ISBN === req.params.isbn){
-              book.publication = 0;// no publication available
-              return;
-          }
-
-          return res.json({books: database.books, publications: database.publications,
-          });
-      });
-
+    return res.json({
+      books: database.books,
+      publications: database.publications,
+    });
+  });
 });
 
 inkingEmotions.listen(3000, () => console.log("Server Running!!!"));
-
 
 //Talk to mongodb in which mongodb understands => *******
 //talk to us in the way we understand => JS
