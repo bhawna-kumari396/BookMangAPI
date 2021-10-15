@@ -166,7 +166,7 @@ Method         POST
 inkingEmotions.post("/author/new", (req, res) => {
   const { newAuthor } = req.body;
 
-  database.author.push(newAuthor);
+  database.authors.push(newAuthor);
 
   return res.json({
     authors: database.authors,
@@ -176,7 +176,27 @@ inkingEmotions.post("/author/new", (req, res) => {
 });
 
 /*
-Route         /book/update/title
+Route         /publication/new
+description   add new publication
+Access          PUBLIC
+Parameters     none
+Method         POST
+ */
+
+inkingEmotions.post("/publication/new", (req, res) => {
+  const { newPublication } = req.body;
+
+  database.publications.push(newPublication);
+
+  return res.json({
+    publications: database.publications,
+    message: "Publication was added!!!",
+    
+  });
+});
+
+/*
+Route         /book/update
 description   Update title of a book
 Access          PUBLIC
 Parameters     isbn
