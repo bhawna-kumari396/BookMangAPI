@@ -303,7 +303,7 @@ Parameters     isbn, author id
 Method         DELETE
  */
 
-inkingEmotions.delete("/book/delete/author/:isbn/:authorId", (req, res) => {
+inkingEmotions.delete("/book/delete/Authors/:ISBN/:authorId", (req, res) => {
   database.books.forEach((book) => {
     if (book.ISBN === req.params.isbn) {
       const newAuthorList = book.authors.filter(
@@ -322,7 +322,7 @@ inkingEmotions.delete("/book/delete/author/:isbn/:authorId", (req, res) => {
         (book) => book.ISBN !== req.params.isbn
       );
 
-      author.books = newBookList;
+      author.books = newBooksList;
       return;
     }
   });
@@ -342,7 +342,7 @@ Parameters     isbn, publication id
 Method         DELETE
  */
 
-inkingEmotions.delete("/publication/delete/book/:isbn/:pubId", (req, res) => {
+inkingEmotions.delete("/publication/delete/book/:ISBN/:pubId", (req, res) => {
   database.publications.forEach((publication) => {
     if (publication.id === parseInt(req.params.pubId)) {
       const newBooksList = publication.books.filter(
